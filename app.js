@@ -2,17 +2,21 @@ const express = require('express');
 const bcryptjs = require('bcryptjs');
 const jwt= require('jsonwebtoken');
 const cors = require('cors');
-const io = require('socket.io')(8080,{
+const app = express();
+const server = require('http').createServer(app);
+require('dotenv').config();
+
+const io = require('socket.io')(server,{
     cors: {
-        origin: 'http://localhost:3000'
+        origin: process.env.CLIENT_URL || 'http://localhost:3000'
     }
 });
 
-const app = express();
+
 
 // Connect DB
 require('./db/connection');
-require('dotenv').config();
+
 
 //Include models
 const Users = require('./models/Users');
@@ -225,6 +229,6 @@ app.get('/api/users/:userId', async (req,res) => {
     }
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('listening on port' + port);
 })
