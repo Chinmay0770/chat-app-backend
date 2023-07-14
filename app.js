@@ -13,6 +13,11 @@ const io = require('socket.io')(server,{
 });
 
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
+
 
 // Connect DB
 require('./db/connection');
@@ -67,9 +72,7 @@ io.on('connection', socket => {
     })
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+
 
 
 // Routes
